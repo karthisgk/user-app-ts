@@ -6,6 +6,15 @@ USER CRED Application using express & typescript with azure function
 * MongoDB should be installed.
 * Azure CLI
 
+### Installation
+
+Install the dependencies and devDependencies and start the server.
+
+```sh
+$ npm install 
+$ npm start
+```
+
 # Running azure function in local
 ```sh
 $ npm run az-start
@@ -34,14 +43,15 @@ Sample local.setttings.json file
 }
 ```
 
-### Installation
+### API Documentation 
+In this project postman collection is userd that you can import in your desktop application
+Collection URL [here](https://api.postman.com/collections/23426708-eca08b55-f5dd-4589-b91a-bb8129ae03de?access_key=PMAT-01GR97QGJXW0KW2SE5AD0DV0PW)
 
-Install the dependencies and devDependencies and start the server.
+Note the environment value here:-
+base=[https://userappsgk.azurewebsites.net/api/v1
+](https://userappsgk.azurewebsites.net/api/v1
+)
 
-```sh
-$ npm install 
-$ npm start
-```
 
 ### Test
 We use Jest and Supertest to run the test. Run the following command to start the Test.
