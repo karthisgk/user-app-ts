@@ -1,0 +1,14 @@
+{
+    "environment": {
+        "name": "local",
+        "port": 8080,
+        "apiBase": "/api/v1",
+        "databaseUrl": "mongodb://karthisgdotsg:karthisgk1234@localhost:27017",
+        "dataBaseName": "mpm",
+        "allowedOrigins": [
+            "http://sg.ddl.link:8080",
+            "http://localhost:8080",
+            "https://userappsgk.azurewebsites.net"
+        ]
+    }
+}

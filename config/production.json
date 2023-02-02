@@ -1,0 +1,6 @@
+{
+    "environment": {
+        "name": "production",
+        "databaseUrl": "mongodb+srv://karthisgdotsg:karthisgk1234@cluster0.pv9lzrc.mongodb.net/?retryWrites=true&w=majority"
+    }
+}
