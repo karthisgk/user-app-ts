@@ -6,6 +6,25 @@ USER CRED Application using express & typescript with azure function
 * MongoDB should be installed.
 * Azure CLI
 
+# config local env
+### .env
+Sample .env file
+```sh
+MONGO_DB_URL=mongodb://sampleuser:password@host:port
+```
+
+### Setting local.setttings.json
+Sample local.setttings.json file
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node"
+  }
+}
+```
+
 ### Installation
 
 Install the dependencies and devDependencies and start the server.
@@ -28,19 +47,6 @@ $ npm start
 # Running using nodemon
 ```sh
 $ npm run serve
-```
-
-# Running on local machine
-### Setting .env
-Sample local.setttings.json file
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "node"
-  }
-}
 ```
 
 ### API Documentation 
