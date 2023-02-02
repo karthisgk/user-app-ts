@@ -4,7 +4,6 @@ export interface AppConfig {
     name: string;
     port: number;
     apiBase: string;
-    databaseUrl: string;
     dataBaseName: string;
     allowedOrigins: [string]
 }

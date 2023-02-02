@@ -8,6 +8,8 @@ import path from "path"
 import cookieParser from "cookie-parser"
 import createError from "http-errors"
 import BaseController from "./lib/controllers/base.controller"
+import dotenv from "dotenv"
+dotenv.config()
 
 export default class App {
     public app: express.Application
@@ -28,7 +30,7 @@ export default class App {
     async connectDb(){
         try {
             mongoose.set("strictQuery", !false)
-            await mongoose.connect(this.config.databaseUrl, {
+            await mongoose.connect(process.env.MONGO_DB_URL, {
                 dbName: this.config.dataBaseName
             });
         } catch (err) {
