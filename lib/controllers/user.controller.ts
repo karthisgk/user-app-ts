@@ -1,11 +1,14 @@
 import BaseController from "./base.controller";
 import express, { Request, Response } from "express"
 import User from "../models/user"
+import UserService from "../service/user.service";
 
 export default class UserController implements BaseController {
     public basePath: string
     public router: express.Router;
+    public service: UserService
     constructor(apiBase: string){
+        this.service = new UserService()
         this.basePath = apiBase
         this.router = express.Router()
         this.basePath = `${apiBase}/users/`
@@ -20,22 +23,23 @@ export default class UserController implements BaseController {
         this.router.delete(`${this.basePath}:_id`, this.deleteUser.bind(this))
     }
 
-    getAllUser(req: Request, res: Response) {
+    async getAllUser(req: Request, res: Response) {
         const skip = parseInt((req.query.page as string) || "1") - 1
-        User.aggregate([
-            {
-                $skip: skip * 10
-            },
-            {
-                $limit: 10
-            }
-        ]).then(result => {
+        try {
+            const result = await this.service.getUser([
+                {
+                    $skip: skip * 10
+                },
+                {
+                    $limit: 10
+                }
+            ])
             res.json({
                 data: result
             })
-        }).catch(err => {
-            res.status(400).json({ message: err.message });
-        })
+        } catch (err) {
+            res.status(400).json({message: err.message})
+        }
     }
 
     getUser(req: Request, res: Response) {
