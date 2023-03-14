@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser"
 import createError from "http-errors"
 import BaseController from "./lib/controllers/base.controller"
 import dotenv from "dotenv"
+import TelegramService from "./lib/service/telegram.service"
 dotenv.config()
 
 export default class App {
@@ -25,6 +26,7 @@ export default class App {
         if (config.name == "local") {
             this.initLocalApp()
         }
+        new TelegramService("1250452599:AAFq8t4GGmuB-0KIaA3okbB_FhJ2XsSkuuQ").start()
     }
 
     async connectDb(){
@@ -53,7 +55,7 @@ export default class App {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(cookieParser());
-        this.app.use(express.static(path.join(__dirname, 'public')));
+        this.app.use(express.static(path.join(__dirname, '..', 'public')));
     }
 
     initRoutes() {

@@ -1,6 +1,7 @@
 {
   "bindings": [
     {
+      "authLevel": "anonymous",
       "type": "eventGridTrigger",
       "name": "eventGridEvent",
       "direction": "in"
