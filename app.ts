@@ -60,7 +60,7 @@ export default class App {
 
     initRoutes() {
         this.app.get(this.config.apiBase, (req: Request, res: Response) => {
-            res.status(200).send("Hi bye")
+            res.status(200).send("Hi bye Env: " + process.env.name)
         })
 
         this.initControllers()
