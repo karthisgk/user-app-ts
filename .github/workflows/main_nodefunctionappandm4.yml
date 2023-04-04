@@ -6,7 +6,7 @@ name: Build and deploy Node.js project to Azure Function App - nodeFunctionAppAn
 on:
   push:
     branches:
-      - main
+      - dev
   workflow_dispatch:
 
 env:
@@ -15,6 +15,10 @@ env:
 
 jobs:
   build-and-deploy:
+    if: github.event_name == 'pull_request'
+    environment:
+      name: DEVELOPMENT
+      url: https://nodefunctionappandm4.azurewebsites.net/api/v1
     runs-on: windows-latest
     steps:
       - name: 'Checkout GitHub Action'
