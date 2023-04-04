@@ -16,11 +16,19 @@ export default class UserController implements BaseController {
     }
 
     initRoutes(){
+        this.router.get(`${this.basePath}check`, this.check.bind(this))
+
         this.router.get(`${this.basePath}`, this.getAllUser.bind(this))
         this.router.get(`${this.basePath}:_id`, this.getUser.bind(this))
         this.router.post(`${this.basePath}`, this.createUser.bind(this))
         this.router.put(`${this.basePath}:_id`, this.updateUser.bind(this))
         this.router.delete(`${this.basePath}:_id`, this.deleteUser.bind(this))
+    }
+
+    check(req: Request, res: Response){
+        res.json({
+            success: true
+        })
     }
 
     async getAllUser(req: Request, res: Response) {
