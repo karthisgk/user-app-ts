@@ -4,9 +4,10 @@
 name: Build and deploy Node.js project to Azure Function App - nodeFunctionAppAndM4
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types: [opened]
   workflow_dispatch:
 
 env:
@@ -15,7 +16,7 @@ env:
 
 jobs:
   build-and-deploy:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
     environment:
       name: DEVELOPMENT
       url: https://nodefunctionappandm4.azurewebsites.net/api/v1
