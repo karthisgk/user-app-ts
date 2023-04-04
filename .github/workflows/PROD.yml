@@ -34,7 +34,7 @@ jobs:
         shell: pwsh
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          export NODE_ENV=production
+          set NODE_ENV=production
           npm install
           npm run build --if-present
           npm run test --if-present
