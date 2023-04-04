@@ -1,13 +1,13 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/azure/functions-action
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js project to Azure Function App - nodeFunctionAppAndM4
+name: Build and deploy Node.js project to Azure Function App - DEV AND PROD
 
 on:
   pull_request:
     branches:
       - main
-    types: [opened]
+    types: [opened, closed]
   workflow_dispatch:
 
 env:
@@ -15,11 +15,7 @@ env:
   NODE_VERSION: '18.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
 
 jobs:
-  build-and-deploy:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened'
-    environment:
-      name: DEVELOPMENT
-      url: https://nodefunctionappandm4.azurewebsites.net/api/v1
+  build:
     runs-on: windows-latest
     steps:
       - name: 'Checkout GitHub Action'
@@ -38,7 +34,14 @@ jobs:
           npm run build --if-present
           npm run test --if-present
           popd
-
+  deploy-dev:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    needs: [build]
+    environment:
+      name: DEVELOPMENT
+      url: https://nodefunctionappandm4.azurewebsites.net/api/v1
+    runs-on: windows-latest
+    steps:
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
@@ -47,3 +50,19 @@ jobs:
           slot-name: 'Production'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_25852F6A7BE943F6A5F9014F0B868B6B }}
+  deploy-prod:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs: [deploy-dev]
+    environment:
+      name: PRODUCTION
+      url: https://nodejsfuncprod.azurewebsites.net/api/v1
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: 'nodeJsFuncProd'
+          slot-name: 'Production'
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B1FF4D6E75D84E6395B735AC05755B42 }}
