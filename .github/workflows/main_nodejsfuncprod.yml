@@ -4,9 +4,10 @@
 name: Build and deploy Node.js project to Azure Function App - nodeJsFuncProd
 
 on:
-  push:
-    branches:
+  pull_request:
+    branches: 
       - main
+    types: [closed]
   workflow_dispatch:
 
 env:
@@ -15,6 +16,7 @@ env:
 
 jobs:
   build-and-deploy:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     environment:
       name: PRODUCTION
       url: https://nodejsfuncprod.azurewebsites.net/api/v1
