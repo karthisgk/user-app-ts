@@ -75,7 +75,7 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_25852F6A7BE943F6A5F9014F0B868B6B }}
   deploy-prod:
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-    needs: [deploy-dev]
+    needs: [build-prod, deploy-dev]
     environment:
       name: PRODUCTION
       url: https://nodejsfuncprod.azurewebsites.net/api/v1
