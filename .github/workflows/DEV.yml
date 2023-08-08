@@ -40,7 +40,7 @@ jobs:
           npm run test --if-present
           popd
       - name: 'Run Azure Functions Action'
-        uses: Azure/functions-action@v1
+        uses: Azure/functions-action@v2
         id: fa
         with:
             app-name: 'nodeFunctionAppAndM4'
