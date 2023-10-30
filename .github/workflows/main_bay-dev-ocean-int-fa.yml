@@ -1,0 +1,71 @@
+# Docs for the Azure Web Apps Deploy action: https://go.microsoft.com/fwlink/?linkid=2134798
+# More GitHub Actions for Azure: https://go.microsoft.com/fwlink/?linkid=2135048
+
+name: Deployment of bay-dev-ocean-int-fa to main branch
+
+on:
+  push:
+    branches:
+      - source-control-workflow-generation-bay-dev-ocean-int-fa
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: "16.x" # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  RESOURCE_GROUP_NAME: "development-integration"
+  FUNCTION_APP_NAME: "bay-dev-ocean-int-fa"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      # checkout the repo
+      - name: "Checkout Github Action"
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      # - name: Login via Az Module
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{secrets.AZURE_CREDENTIALS}}
+      #     enable-AzPSSession: true
+
+      - name: Get publish Profile
+        id: fncapp
+        shell: pwsh
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          Write-Output ($Env:AZURE_CREDENTIALS | ConvertTo-Json).clientId
+
+      # - name: "Run Azure Functions Action and deploy"
+      #   uses: Azure/functions-action@v1
+      #   with:
+      #     app-name: ${{ env.FUNCTION_APP_NAME }}
+      #     slot-name: Production
+      #     publish-profile: ${{ steps.fncapp.outputs.profile }}
+      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+      
+      # - name: Reset publish Profile
+      #   shell: pwsh
+      #   run: |
+      #     $profile = Reset-AzWebAppPublishingProfile `
+      #         -ResourceGroupName ${{ env.RESOURCE_GROUP_NAME }} `
+      #         -Name ${{ env.FUNCTION_APP_NAME }}
+      #     $profile = ""
+      
+      # Azure logout
+      # - name: logout
+      #   run: |
+      #         az logout
+      #   if: always()
